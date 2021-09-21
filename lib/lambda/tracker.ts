@@ -1,4 +1,6 @@
+import { getRuns } from './oengus-api'
+
 exports.track = () => {
-  console.log('Hello, Lambda')
+  console.log(getRuns('rtaijw2021'))
 }
 
