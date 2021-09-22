@@ -30,7 +30,7 @@ export class DatabaseStack extends Stack {
     // VPC
     const vpc = new Vpc(this, 'OengusTrackerVpc', {
       maxAzs: 2,
-      natGateways: 0,
+      natGateways: 2,
       subnetConfiguration: [
         {
           name: 'public',
