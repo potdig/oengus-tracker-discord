@@ -1,4 +1,4 @@
-import { Port, SecurityGroup, SubnetType, Vpc } from '@aws-cdk/aws-ec2'
+import { InterfaceVpcEndpoint, InterfaceVpcEndpointAwsService, Port, SecurityGroup, SubnetType, Vpc } from '@aws-cdk/aws-ec2'
 import { Construct, Stack, StackProps } from '@aws-cdk/core'
 
 export class VPCStack extends Stack {
@@ -33,6 +33,11 @@ export class VPCStack extends Stack {
     )
 
     // TODO: Lambda -> RDS Proxy
+    const lambdaGroup = new SecurityGroup(
+      this,
+      'OengusTrackerConnectionFromLambdaToProxy',
+      { vpc }
+    )
 
     // RDS Proxy -> DB
     const dbProxyGroup = new SecurityGroup(
@@ -41,28 +46,45 @@ export class VPCStack extends Stack {
       { vpc }
     )
 
-    // dbProxyGroup から TCP ポート 3306 経由のインバウンドを許可
+    // dbProxyGroup から TCP ポート 5432 経由のインバウンドを許可
     dbProxyGroup.addIngressRule(
       dbProxyGroup,
       Port.tcp(5432),
       'allow DB connection'
     )
 
-    // bastionGroup から TCP ポート 3306 経由のインバウンドを許可
+    // bastionGroup から TCP ポート 5432 経由のインバウンドを許可
     dbProxyGroup.addIngressRule(
       bastionGroup,
       Port.tcp(5432),
       'allow Bastion connection'
     )
 
+    // lambdaGroup から TCP ポート 5432 経由のインバウンドを許可
+    dbProxyGroup.addIngressRule(
+      lambdaGroup,
+      Port.tcp(5432),
+      'allow Lambda connection'
+    )
+
+    // Lambda から Secrets Manager を使えるようにエンドポイントを用意する
+    new InterfaceVpcEndpoint(this, 'OengusTrackerSecretsManagerVpcEndpoint', {
+      vpc,
+      service: InterfaceVpcEndpointAwsService.SECRETS_MANAGER
+    })
+
     this.props = {
-      vpc, bastionGroup, dbProxyGroup
+      vpc,
+      bastionGroup,
+      lambdaGroup,
+      dbProxyGroup
     }
   }
 }
 
 export interface VPCStackProps extends StackProps {
-  vpc: Vpc,
-  bastionGroup: SecurityGroup,
+  vpc: Vpc
+  bastionGroup: SecurityGroup
+  lambdaGroup: SecurityGroup
   dbProxyGroup: SecurityGroup
 }
