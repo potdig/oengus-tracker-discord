@@ -15,6 +15,7 @@
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
     "@types/node-fetch": "^2.5.12",
+    "@types/pg": "^8.6.1",
     "aws-cdk": "1.123.0",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
@@ -30,6 +31,7 @@
     "@aws-cdk/aws-rds": "^1.124.0",
     "@aws-cdk/aws-secretsmanager": "^1.124.0",
     "@aws-cdk/core": "1.124.0",
+    "@aws-sdk/client-secrets-manager": "^3.33.0",
     "node-fetch": "^2.6.5",
     "pg": "^8.7.1",
     "source-map-support": "^0.5.16"

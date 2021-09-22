@@ -20,7 +20,8 @@ export class LambdaStack extends Stack {
       memorySize: 256,
       bundling: {
         nodeModules: [
-          'node-fetch'
+          'node-fetch',
+          'pg'
         ]
       },
       vpc: props.vpc,
@@ -36,7 +37,10 @@ export class LambdaStack extends Stack {
       }
     })
 
-    // Lambda から DB 認証情報へのアクセスを許可
+    // Lambda に RDS Proxy へのアクセスを許可
+    props.dbProxy.grantConnect(func)
+
+    // Lambda に DB 認証情報へのアクセスを許可
     props.dbSecret.grantRead(func)
 
     // 定期実行のためのルールを作成してターゲットを追加
