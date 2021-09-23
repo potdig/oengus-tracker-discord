@@ -26,18 +26,20 @@ async function getRuns(eventId: string, newerThan: number = 0) {
       // Array<Array<Run>> for each game (flatten) => Array<Run>
       return submission.games.flatMap((game) => {
         // Array<Run> for each category
-        return game.categories.map((category) => {
-          const user = submission.user
-          return new Run(
-            category.id,
-            marathonName,
-            user.usernameJapanese ? user.usernameJapanese : user.username,
-            game.name,
-            game.console,
-            category.name,
-            category.estimate
-          )
-        })
+        return game.categories
+          .filter((category) => category.id > newerThan)
+          .map((category) => {
+            const user = submission.user
+            return new Run(
+              category.id,
+              marathonName,
+              user.usernameJapanese ? user.usernameJapanese : user.username,
+              game.name,
+              game.console,
+              category.name,
+              category.estimate
+            )
+          })
       })
     })
   } else {
