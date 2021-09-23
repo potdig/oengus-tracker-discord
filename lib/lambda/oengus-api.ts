@@ -16,7 +16,7 @@ async function getRuns(eventId: string, newerThan: number = 0) {
     : null
   const marathonName = marathon?.name ?? 'Unknown Marathon'
 
-  console.log(`Fetch marathon info from ${submissionUrlFor(eventId)}`)
+  console.log(`Fetch submission info from ${submissionUrlFor(eventId)}`)
   const submissionsResponse = await fetch(submissionUrlFor(eventId))
   console.log(`Status: ${submissionsResponse.status}`)
   if (submissionsResponse.ok) {

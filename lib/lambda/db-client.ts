@@ -37,7 +37,6 @@ class DBClient {
         `,
       values: [eventId]
     })
-    console.log(`Rows: ${result.rows}`)
     if (result.rowCount === 0) {
       return null
     } else {

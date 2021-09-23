@@ -17,6 +17,7 @@ export async function track() {
   const runs = await getRuns(eventId, previousLatestRun?.latestRunId ?? 0)
 
   if (runs.length > 0) {
+    console.log(`New runs: ${runs.length}`)
     // 今回の最新 ID を取得
     const latestRunId = runs.reduce(
       (acc, run) => (run.id > acc ? run.id : acc),
