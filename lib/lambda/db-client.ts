@@ -3,6 +3,7 @@ import {
   SecretsManagerClient
 } from '@aws-sdk/client-secrets-manager'
 import { Client } from 'pg'
+import { LatestRun } from './db-table-types'
 
 class DBClient {
   private client: Client
@@ -12,7 +13,39 @@ class DBClient {
   }
 
   async createTableIfNotExists() {
-    console.log(await this.client.query('SELECT NOW()'))
+    await this.client.query(`
+    CREATE TABLE IF NOT EXISTS latest_run_ids (
+      event_id varchar UNIQUE,
+      latest_run_id int
+    );
+    `)
+  }
+
+  async getLatestRunIdOf(eventId: string) {
+    const result = await this.client.query({
+      name: 'get-latest-run-id',
+      text: `
+        SELECT
+          event_id,
+          latest_run_id
+        FROM
+          latest_run_ids
+        WHERE
+          event_id = $1
+        ;
+        `,
+      values: [eventId]
+    })
+    console.log(`Rows: ${result.rows}`)
+    if (result.rowCount === 0) {
+      return new LatestRun(eventId, 0)
+    } else {
+      const row = result.rows[0]
+      return new LatestRun(
+        row['event_id'] as string,
+        row['latest_run_id'] as number
+      )
+    }
   }
 }
 
