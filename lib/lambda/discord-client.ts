@@ -36,7 +36,13 @@ class DiscordClient {
         )
     })
 
-    await textChannel.send(embeds)
+    await Promise.all(
+      embeds.map(async (embed) => {
+        await textChannel.send('', {
+          embed
+        })
+      })
+    )
 
     client.destroy()
   }
