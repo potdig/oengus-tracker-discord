@@ -32,6 +32,7 @@
     "@aws-cdk/aws-secretsmanager": "^1.124.0",
     "@aws-cdk/core": "1.124.0",
     "@aws-sdk/client-secrets-manager": "^3.33.0",
+    "discord.js": "^13.1.0",
     "node-fetch": "^2.6.5",
     "pg": "^8.7.1",
     "source-map-support": "^0.5.16"
