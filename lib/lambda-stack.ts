@@ -53,7 +53,6 @@ export class LambdaStack extends Stack {
     const rule = new Rule(this, 'OengusTrackerCronRule', {
       // 21:00(JST:UTC+9) -> 12:00(UTC)
       schedule: Schedule.cron({
-        hour: '12',
         minute: '0'
       })
     })
