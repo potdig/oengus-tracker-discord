@@ -29,6 +29,7 @@ async function getRuns(eventId: string, newerThan: number = 0) {
         return game.categories.map((category) => {
           const user = submission.user
           return new Run(
+            category.id,
             marathonName,
             user.usernameJapanese ? user.usernameJapanese : user.username,
             game.name,
