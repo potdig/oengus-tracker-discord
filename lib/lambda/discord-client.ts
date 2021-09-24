@@ -30,10 +30,10 @@ class DiscordClient {
         .setTitle(`${run.marathonName}に新しい応募があったよ`)
         .addFields(
           { name: 'タイトル', value: run.game },
-          { name: '機種', value: run.console },
-          { name: '走者／代表者', value: run.runner },
           { name: 'カテゴリ', value: run.category },
-          { name: 'EST', value: run.formattedEst }
+          { name: '走者／代表者', value: run.runner, inline: true },
+          { name: 'EST', value: run.formattedEst, inline: true },
+          { name: '機種', value: run.console, inline: true }
         )
     })
 
