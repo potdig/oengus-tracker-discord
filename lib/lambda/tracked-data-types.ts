@@ -34,7 +34,7 @@ class Run {
     const hour = fields.find(s => this.endsWith('H', s))?.replace('H', '')
     const minutes = fields.find(s => this.endsWith('M', s))?.replace('M', '')
     const seconds = fields.find(s => this.endsWith('S', s))?.replace('S', '')
-    return `${hour ?? '0'}:${minutes ?? '00'}:${seconds ?? '00'}`
+    return `${hour ?? '0'}:${minutes?.padStart(2, '0') ?? '00'}:${seconds?.padStart(2, '0') ?? '00'}`
   }
 
   private endsWith = (str: string, target: string) =>

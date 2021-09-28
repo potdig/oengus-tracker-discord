@@ -49,4 +49,16 @@ describe('Run#formattedEst', () => {
     )
     expect(run.formattedEst).toBe('1:40:20')
   })
+  it('format single digit number', () => {
+    const run = new Run(
+      1,
+      'Marathon',
+      'Runner',
+      'Game',
+      'Console',
+      'Category',
+      'PT1H5M5S'
+    )
+    expect(run.formattedEst).toBe('1:05:05')
+  })
 })
