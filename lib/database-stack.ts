@@ -137,6 +137,7 @@ export class DatabaseStack extends Stack {
       }),
       credentials: Credentials.fromSecret(databaseCredentialSecret),
       instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
+      allocatedStorage: 1,
       vpc,
       vpcSubnets: {
         subnetType: SubnetType.PRIVATE_ISOLATED
